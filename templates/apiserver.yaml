@@ -23,7 +23,7 @@ spec:
     - --service-cluster-ip-range={{ service_ip_range }}
     - --secure-port=443
     - --advertise-address={{ ansible_default_ipv4.address }}
-    - --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota
+    - --admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction
     - --anonymous-auth=false
     - --authorization-mode=RBAC,Node
     - --enable-swagger-ui=true
