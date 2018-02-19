@@ -104,15 +104,17 @@ The kubelet was configured to use a DNS service running on Kubernetes, so we nee
 
 # Optional components
 
-## Dashboard
-
 ### Add permissions to default namespace account
+
+At the moment we setup the default service account for the kube-system namespace with cluster admin privileges while specific ACLs are not provided for all components.
 
     kubectl create clusterrolebinding system-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default --namespace=kube-system
 
+## Dashboard
+
 ### Create deployment and service
 
-    kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.6.3/src/deploy/kubernetes-dashboard.yaml
+    kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.8.2/src/deploy/recommended/kubernetes-dashboard.yaml
 
 ## Heapster
 
@@ -144,10 +146,11 @@ This DaemonSet will ensure that a fluentd daemon will run on every node.
 
 ### Configuration
 
-The correct workspace ID ```<WSID>``` and key ```<KEY>``` need to be configured on the daemonset configuration file ```oms-daemonset.yaml```. These values can be obtained from the "Connected Sources" menu of the OMS Portal.
+The correct workspace ID ```<WSID>``` and key ```<KEY>``` need to be configured on the secret configuration file ```oms-secret.yaml```. These values can be obtained from the "Connected Sources" menu of the OMS Portal.
 
-### Creating DaemonSet
+### Creating Secret and DaemonSet
 
+    kubectl create -f files/oms-secret.yaml --namespace=kube-system
     kubectl create -f files/oms-daemonset.yaml --namespace=kube-system
 
 ## Nginx Ingress Controller + Kube-Lego
@@ -265,4 +268,5 @@ After all previous steps have been taken and the cluster is stable, alter the AP
 - [ ] setup node autoscaling
 - [ ] package management - [helm](https://helm.sh)
 - [ ] service broker api for azure services - [Open Service Broker for Azure](https://github.com/Azure/open-service-broker-azure)
+- [ ] support VMSS (https://github.com/kubernetes/kubernetes/pull/59716)
 - [ ] migrate from [kube-lego](https://github.com/jetstack/kube-lego) to [cert-manager](https://github.com/jetstack/cert-manager/)
