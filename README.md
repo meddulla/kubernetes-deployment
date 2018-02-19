@@ -265,3 +265,4 @@ After all previous steps have been taken and the cluster is stable, alter the AP
 - [ ] setup node autoscaling
 - [ ] package management - [helm](https://helm.sh)
 - [ ] service broker api for azure services - [Open Service Broker for Azure](https://github.com/Azure/open-service-broker-azure)
+- [ ] migrate from [kube-lego](https://github.com/jetstack/kube-lego) to [cert-manager](https://github.com/jetstack/cert-manager/)
