@@ -187,6 +187,37 @@ Change the email address on the config file before creating it.
     kubectl apply -f nginx_ingress/lego/deployment.yaml
 
 
+### Datadog
+
+Get an api key and create a secret.
+
+Copy the datadog/datadog-secret-tpl.yaml to datadog/datadog-secret.yaml and fill in the encoded secret.
+
+    echo -n "YOUR-API-KEY" | base64
+    kubectl create -f datadog/datadog-secret.yaml --namespace=kube-system
+
+Setup datadog's daemon set:
+
+    kubectl create -f datadog/datadog-rbac.yaml --namespace=kube-system
+    kubectl create -f datadog/dd-agent.yaml --namespace=kube-system
+
+Validate that `dd-agent` is running - the number of desired and current nodes should equal the number of nodes in the cluster.
+
+    kubectl get daemonset
+
+Run the info command:
+
+    kubectl --namespace=kube-system exec dd-agent-.. /etc/init.d/datadog-agent info
+    kubectl --namespace=kube-system exec dd-agent-.. /etc/init.d/datadog-agent configcheck
+
+Run the kube state metrics
+
+    kubectl create -f datadog/kube-state-metrics.yaml --namespace=kube-system
+
+Go to datadogs kubernetes [dashboard](https://app.datadoghq.com/screen/integration/86/Kubernetes).
+
+More info [here](https://docs.datadoghq.com/integrations/kubernetes/).
+
 # Upgrade notes
 
 1. On the master components, alter the image tag on the pod manifests (/etc/kubernetes/manifests/). Be careful not to edit the files in place otherwise the editor may place swap files, etc, on the manifests dir, which will cause havoc with kubelet. It's best to edit the files somewhere else and then copy over. The apiserver needs to be upgraded before kubelets.
