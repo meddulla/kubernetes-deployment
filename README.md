@@ -210,6 +210,8 @@ Run the info command:
     kubectl --namespace=kube-system exec dd-agent-.. /etc/init.d/datadog-agent info
     kubectl --namespace=kube-system exec dd-agent-.. /etc/init.d/datadog-agent configcheck
 
+Under "Checks" the info command outputs what metrics are currently being collected.
+
 Run the kube state metrics
 
     kubectl create -f datadog/kube-state-metrics.yaml --namespace=kube-system
